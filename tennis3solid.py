@@ -17,5 +17,5 @@ class TennisGame3Solid:
             self.__score_counter.player_two_scored()
 
     def score(self):
-        return self.__score_display.display_score(self.__score_counter.player_one_score(),
-                                                  self.__score_counter.player_two_score())
+        return self.__score_display.display_score(self.__score_counter.get_player_one_score(),
+                                                  self.__score_counter.get_player_two_score())

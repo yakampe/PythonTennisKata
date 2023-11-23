@@ -9,8 +9,8 @@ class ScoreCounter:
     def player_two_scored(self):
         self.__player_two_score += 1
 
-    def player_one_score(self):
+    def get_player_one_score(self):
         return self.__player_one_score
 
-    def player_two_score(self):
+    def get_player_two_score(self):
         return self.__player_two_score
