@@ -22,11 +22,46 @@ class ScoreCounter:
         return self.__player_two_score
 
 
+class ScorePrinter:
+    def __init__(self, player1Name, player2Name):
+        self.__player_one_name = player1Name
+        self.__player_two_name = player2Name
+
+    def display_ongoing_score(self, player_one_score, player_two_score):
+        score_names = ["Love", "Fifteen", "Thirty", "Forty"]
+        score = score_names[player_one_score]
+
+        is_tie = player_two_score == player_one_score
+
+        if is_tie:
+            return score + "-All"
+        else:
+            return score + "-" + score_names[player_two_score]
+
+    def display_endgame_score(self, player_one_score, player_two_score):
+
+        is_tie = player_one_score == player_two_score
+        if is_tie:
+            return "Deuce"
+
+        is_advantage_stage = ((player_one_score - player_two_score) * (
+                player_one_score - player_two_score) == 1)
+
+        if is_advantage_stage:
+            return "Advantage " + self.__get_winning_player(player_one_score,player_two_score)
+        else:
+            return "Win for " + self.__get_winning_player(player_one_score,player_two_score)
+
+    def __get_winning_player(self, player_one_score, player_two_score):
+        return self.__player_one_name if player_one_score > player_two_score else self.__player_two_name
+
+
 class TennisGame3Solid:
     def __init__(self, player1Name, player2Name):
         self.__player_one_name = player1Name
         self.__player_two_name = player2Name
         self.__score_counter = ScoreCounter()
+        self.__score_display = ScorePrinter(player1Name, player2Name)
 
     def won_point(self, scoring_player):
         if scoring_player == self.__player_one_name:
@@ -36,35 +71,8 @@ class TennisGame3Solid:
 
     def score(self):
         if self.__score_counter.is_endgame():
-            return self.__return_endgame_score()
+            return self.__score_display.display_endgame_score(self.__score_counter.player_one_score(),
+                                                              self.__score_counter.player_two_score())
         else:
-            return self.__return_ongoing_score()
-
-
-
-    def __return_ongoing_score(self):
-        score_names = ["Love", "Fifteen", "Thirty", "Forty"]
-        score = score_names[self.__score_counter.player_one_score()]
-
-        is_tie = self.__score_counter.player_two_score() == self.__score_counter.player_one_score()
-
-        if is_tie:
-            return score + "-All"
-        else:
-            return score + "-" + score_names[self.__score_counter.player_two_score()]
-
-    def __return_endgame_score(self):
-        is_tie = self.__score_counter.player_one_score() == self.__score_counter.player_two_score()
-        if is_tie:
-            return "Deuce"
-
-        is_advantage_stage = ((self.__score_counter.player_one_score() - self.__score_counter.player_two_score()) * (
-                self.__score_counter.player_one_score() - self.__score_counter.player_two_score()) == 1)
-
-        if is_advantage_stage:
-            return "Advantage " + self.__get_winning_player()
-        else:
-            return "Win for " + self.__get_winning_player()
-
-    def __get_winning_player(self):
-        return self.__player_one_name if self.__score_counter.player_one_score() > self.__score_counter.player_two_score() else self.__player_two_name
+            return self.__score_display.display_ongoing_score(self.__score_counter.player_one_score(),
+                                                              self.__score_counter.player_two_score())
