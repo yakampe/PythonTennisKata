@@ -3,17 +3,17 @@ class ScorePrinter:
         self.__player_one_name = player1Name
         self.__player_two_name = player2Name
 
-    def is_endgame(self, player_one_score, player_two_score):
+    def display_score(self, player_one_score, player_two_score):
+        if self.__is_endgame(player_one_score, player_two_score):
+            return self.__display_endgame_score(player_one_score, player_two_score)
+        else:
+            return self.__display_ongoing_score(player_one_score, player_two_score)
+
+    def __is_endgame(self, player_one_score, player_two_score):
         return not ((player_one_score < 4 and player_two_score < 4) and (
                 player_one_score + player_two_score < 6))
 
-    def display_score(self, player_one_score, player_two_score):
-        if self.is_endgame(player_one_score, player_two_score):
-            return self.display_endgame_score(player_one_score, player_two_score)
-        else:
-            return self.display_ongoing_score(player_one_score, player_two_score)
-
-    def display_ongoing_score(self, player_one_score, player_two_score):
+    def __display_ongoing_score(self, player_one_score, player_two_score):
         score_names = ["Love", "Fifteen", "Thirty", "Forty"]
         score = score_names[player_one_score]
 
@@ -24,7 +24,7 @@ class ScorePrinter:
         else:
             return score + "-" + score_names[player_two_score]
 
-    def display_endgame_score(self, player_one_score, player_two_score):
+    def __display_endgame_score(self, player_one_score, player_two_score):
 
         is_tie = player_one_score == player_two_score
         if is_tie:
