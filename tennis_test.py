@@ -4,6 +4,7 @@ import pytest
 from tennis1 import TennisGame1
 from tennis2 import TennisGame2
 from tennis3 import TennisGame3
+from tennis3solid import TennisGame3Solid
 from tennis4 import TennisGame4
 from tennis5 import TennisGame5
 from tennis6 import TennisGame6
@@ -44,4 +45,9 @@ def test_get_score_game5(p1Points, p2Points, score, p1Name, p2Name):
 @pytest.mark.parametrize('p1Points p2Points score p1Name p2Name'.split(), test_cases)
 def test_get_score_game6(p1Points, p2Points, score, p1Name, p2Name):
     game = play_game(TennisGame6, p1Points, p2Points, p1Name, p2Name)
+    assert score == game.score()
+
+@pytest.mark.parametrize('p1Points p2Points score p1Name p2Name'.split(), test_cases)
+def test_get_score_game6(p1Points, p2Points, score, p1Name, p2Name):
+    game = play_game(TennisGame3Solid, p1Points, p2Points, p1Name, p2Name)
     assert score == game.score()
